@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Character encoding -->
+    <meta charset="UTF-8">
+    
+    <!-- Responsive viewport settings -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Page title -->
+    <title>Poll Results - AI Poll Voting Application</title>
+    
+    <!-- Bootstrap CSS for styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom inline styles -->
+    <style>
+        /* Full height container for centered content */
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        /* Main container styling */
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 50px 40px;
+            max-width: 700px;
+        }
+        
+        /* Heading styling */
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 2.2em;
+        }
+        
+        /* Subtitle styling */
+        .subtitle {
+            text-align: center;
+            color: #777;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+        
+        /* Results section styling */
+        .results-section {
+            margin-bottom: 40px;
+        }
+        
+        /* Option label styling */
+        .option-label {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        /* Vote count styling */
+        .vote-count {
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+        
+        /* Progress bar container */
+        .progress-container {
+            margin-bottom: 25px;
+        }
+        
+        /* Progress bar styling */
+        .progress {
+            height: 30px;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        /* Progress bar fill for yes votes */
+        .progress-bar-yes {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+        
+        /* Progress bar fill for no votes */
+        .progress-bar-no {
+            background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+        
+        /* Statistics section */
+        .statistics {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+        
+        /* Statistics grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        /* Individual statistic card */
+        .stat-card {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .stat-card.no-card {
+            border-left-color: #f5576c;
+        }
+        
+        /* Statistic label */
+        .stat-label {
+            color: #777;
+            font-size: 0.95em;
+            margin-bottom: 8px;
+        }
+        
+        /* Statistic value */
+        .stat-value {
+            font-size: 2em;
+            font-weight: 700;
+            color: #333;
+        }
+        
+        /* Total votes styling */
+        .total-votes {
+            text-align: center;
+            padding: 20px;
+            background: #e7f3ff;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .total-votes-label {
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .total-votes-value {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        /* Back to voting button */
+        .button-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .btn-back {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .btn-back:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+        
+        /* Loading state */
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .spinner-border {
+            color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Page header -->
+        <h1>📊 Results</h1>
+        <div class="subtitle">Real-time Voting Results</div>
+        
+        <!-- Results display section -->
+        <div id="resultsContainer" class="loading">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p>Loading results...</p>
+        </div>
+        
+        <!-- Button to go back to voting -->
+        <div class="button-container">
+            <a href="/" class="btn-back">← Back to Vote</a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS for functionality -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript for results display -->
+    <script>
+        /**
+         * Fetch and display voting results
+         * Updates every 2 seconds for live results
+         */
+        function loadResults() {
+            // Fetch results from API endpoint
+            fetch('/api/results')
+                .then(response => response.json())
+                .then(data => {
+                    // Display results
+                    displayResults(data);
+                    
+                    // Refresh every 2 seconds for live updates
+                    setTimeout(loadResults, 2000);
+                })
+                .catch(error => {
+                    console.error('Error fetching results:', error);
+                    document.getElementById('resultsContainer').innerHTML = `
+                        <div class="alert alert-danger">
+                            Error loading results. Please refresh the page.
+                        </div>
+                    `;
+                });
+        }
+        
+        /**
+         * Display voting results on the page
+         * @param {object} data - Results data from API
+         */
+        function displayResults(data) {
+            const { yes_count, no_count, total_votes, yes_percentage, no_percentage } = data;
+            
+            // Generate progress bar width (handle zero total votes)
+            const yesWidth = total_votes > 0 ? yes_percentage : 0;
+            const noWidth = total_votes > 0 ? no_percentage : 0;
+            
+            // Create HTML for results display
+            const resultsHTML = `
+                <!-- Yes Votes Section -->
+                <div class="results-section">
+                    <div class="option-label">
+                        <span>👍 Yes - AI is Dangerous</span>
+                        <span class="vote-count">${yes_count} votes</span>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress">
+                            <div 
+                                class="progress-bar-yes" 
+                                style="width: ${yesWidth}%;"
+                            >
+                                ${yesWidth > 5 ? yesWidth.toFixed(1) + '%' : ''}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- No Votes Section -->
+                <div class="results-section">
+                    <div class="option-label">
+                        <span>👎 No - AI is Safe</span>
+                        <span class="vote-count">${no_count} votes</span>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress">
+                            <div 
+                                class="progress-bar-no" 
+                                style="width: ${noWidth}%;"
+                            >
+                                ${noWidth > 5 ? noWidth.toFixed(1) + '%' : ''}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Total Votes Display -->
+                <div class="total-votes">
+                    <div class="total-votes-label">Total Votes Cast</div>
+                    <div class="total-votes-value">${total_votes}</div>
+                </div>
+                
+                <!-- Statistics Cards -->
+                <div class="statistics">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-label">Yes Percentage</div>
+                            <div class="stat-value">${yes_percentage.toFixed(1)}%</div>
+                        </div>
+                        <div class="stat-card no-card">
+                            <div class="stat-label">No Percentage</div>
+                            <div class="stat-value">${no_percentage.toFixed(1)}%</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Update the page with results
+            document.getElementById('resultsContainer').innerHTML = resultsHTML;
+        }
+        
+        // Load results when page loads
+        loadResults();
+    </script>
+</body>
+</html>
