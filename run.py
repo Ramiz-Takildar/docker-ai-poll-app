@@ -10,7 +10,7 @@ Usage:
 
 Commands:
     start       Start all containers (default)
-    stop        Stop all containers
+    stop        Stop only AI Poll containers
     restart     Restart all containers
     logs        Show container logs
     status      Show container status
@@ -368,8 +368,8 @@ def cmd_start() -> None:
     show_access_info()
 
 def cmd_stop() -> None:
-    """Stop all containers"""
-    print_section("🛑 Stopping Containers")
+    """Stop only AI Poll containers"""
+    print_section("🛑 Stopping AI Poll Containers")
     
     if is_container_running(APP_CONTAINER):
         print_info("Stopping Flask application container...")
@@ -385,7 +385,7 @@ def cmd_stop() -> None:
     else:
         print_warning("PostgreSQL container is not running")
     
-    print_success("All containers stopped")
+    print_success("AI Poll containers stopped")
 
 def cmd_restart() -> None:
     """Restart all containers"""
@@ -494,7 +494,7 @@ def show_help() -> None:
     print()
     print("Commands:")
     print(f"  {Colors.GREEN}start{Colors.END}       Start all containers (default)")
-    print(f"  {Colors.GREEN}stop{Colors.END}        Stop all containers")
+    print(f"  {Colors.GREEN}stop{Colors.END}        Stop only AI Poll containers")
     print(f"  {Colors.GREEN}restart{Colors.END}     Restart all containers")
     print(f"  {Colors.GREEN}logs{Colors.END}        Show container logs")
     print(f"  {Colors.GREEN}status{Colors.END}      Show container status")

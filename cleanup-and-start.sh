@@ -26,9 +26,10 @@ echo ""
 echo -e "${YELLOW}[CLEANUP] Starting complete cleanup...${NC}"
 echo ""
 
-# Stop all containers
-echo -e "${BLUE}[CLEANUP] Stopping all containers...${NC}"
-docker stop $(docker ps -q) 2>/dev/null || echo "No containers running"
+# Stop only AI Poll containers (don't impact other containers)
+echo -e "${BLUE}[CLEANUP] Stopping AI Poll containers...${NC}"
+docker stop postgres-db 2>/dev/null || echo "postgres-db not running"
+docker stop ai-poll-container 2>/dev/null || echo "ai-poll-container not running"
 
 # Remove AI Poll containers
 echo -e "${BLUE}[CLEANUP] Removing AI Poll containers...${NC}"

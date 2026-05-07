@@ -22,10 +22,10 @@ REM ============================================================================
 echo [CLEANUP] Starting complete cleanup...
 echo.
 
-REM Stop all containers
-echo [CLEANUP] Stopping all containers...
-for /f "tokens=*" %%i in ('docker ps -q') do docker stop %%i >nul 2>&1
-if errorlevel 1 echo No containers running
+REM Stop only AI Poll containers (don't impact other containers)
+echo [CLEANUP] Stopping AI Poll containers...
+docker stop postgres-db >nul 2>&1 || echo postgres-db not running
+docker stop ai-poll-container >nul 2>&1 || echo ai-poll-container not running
 
 REM Remove AI Poll containers
 echo [CLEANUP] Removing AI Poll containers...
